@@ -6,9 +6,9 @@ import { FieldTypes } from "./model/Field";
 interface InspectorProps {}
 
 const Inspector: FC<InspectorProps> = (props) => {
-  const selectedFields = useSelectedField();
+  const selectedField = useSelectedField();
 
-  if (!selectedFields) {
+  if (!selectedField) {
     return null;
   }
 

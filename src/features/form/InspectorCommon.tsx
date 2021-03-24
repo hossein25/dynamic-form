@@ -21,7 +21,7 @@ const InspectorCommon: FC<InspectorCommonProps> = (props) => {
 
   return (
     <div>
-      Text --- {field.id}
+      InspectorCommon --- {field.id}
       <input
         type="text"
         placeholder="title"

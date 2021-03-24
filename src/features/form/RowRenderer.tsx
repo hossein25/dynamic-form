@@ -1,16 +1,18 @@
 import React, { FC } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { getFieldChildrens } from "../../utils/getFieldChildrens";
+import ColumnRenderer from "./ColumnRenderer";
 import { selectField, useFieldsState, useSelectedField } from "./field-slice";
-import { FieldTypes } from "./model/Field";
-import RowRenderer from "./RowRenderer";
+import { Field, FieldTypes } from "./model/Field";
 
-interface FormRendererProps {}
+interface RowRendererProps {
+  fields: Record<string, Field>;
+}
 
-const FormRenderer: FC<FormRendererProps> = () => {
-  const fields = useFieldsState();
+const RowRenderer: FC<RowRendererProps> = ({ fields }) => {
   const dispatch = useAppDispatch();
   const selectedField = useSelectedField();
+  const allFields = useFieldsState();
 
   return (
     <div style={{ margin: 16 }}>
@@ -26,12 +28,12 @@ const FormRenderer: FC<FormRendererProps> = () => {
             dispatch(selectField({ id: key }));
           }}
         >
-          {field.type === FieldTypes.Row && (
-            <div style={{ border: "1px solid red" }}>
-              Row
+          {field.type === FieldTypes.Column && (
+            <div style={{ border: "1px solid blue" }}>
+              Column
               {field.fieldIds.length > 0 && (
                 <div>
-                  <RowRenderer fields={getFieldChildrens(fields, field.fieldIds)} />
+                  <ColumnRenderer fields={getFieldChildrens(allFields, field.fieldIds)} />
                 </div>
               )}
             </div>
@@ -42,4 +44,4 @@ const FormRenderer: FC<FormRendererProps> = () => {
   );
 };
 
-export default FormRenderer;
+export default RowRenderer;
