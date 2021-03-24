@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { useSelectedField } from "./field-slice";
 import InspectorCommon from "./InspectorCommon";
-import { FieldTypes } from "./model/Field";
 
 interface InspectorProps {}
 

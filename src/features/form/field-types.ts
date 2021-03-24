@@ -11,3 +11,8 @@ export interface IEditFieldAction extends Partial<Field> {
 export interface ISelectFieldAction {
   id: string;
 }
+
+export interface IChangeFormDataAction {
+  id: string;
+  value: unknown;
+}

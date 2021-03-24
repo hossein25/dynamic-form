@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   IAddFieldAction,
+  IChangeFormDataAction,
   IEditFieldAction,
   ISelectFieldAction,
 } from "./field-types";
@@ -11,11 +12,13 @@ import { RootState } from "../../app/store";
 export interface FieldsState {
   fields: Record<string, Field>;
   selectedField: Field | undefined;
+  formData: Record<string, unknown>;
 }
 
 const initialState: FieldsState = {
   fields: {},
   selectedField: undefined,
+  formData: {},
 };
 
 const fieldsSlice = createSlice({
@@ -36,10 +39,14 @@ const fieldsSlice = createSlice({
     selectField: (state, action: PayloadAction<ISelectFieldAction>) => {
       state.selectedField = state.fields[action.payload.id];
     },
+    changeFormData: (state, action: PayloadAction<IChangeFormDataAction>) => {
+      const { id, value } = action.payload;
+      state.formData[id] = value;
+    },
   },
 });
 
-export const { addField, editField, selectField } = fieldsSlice.actions;
+export const { addField, editField, selectField, changeFormData } = fieldsSlice.actions;
 
 export const getFormState = (store: RootState) => store.fields;
 
@@ -47,8 +54,7 @@ export const getFields = (store: RootState) => store.fields.fields;
 
 export const getSelectedField = (store: RootState) => store.fields.selectedField;
 
-export const getField = (store: RootState, id: string) =>
-  store.fields.fields[id];
+export const getField = (store: RootState, id: string) => store.fields.fields[id];
 
 export const useFormState = () => useAppSelector(getFormState);
 
@@ -56,7 +62,8 @@ export const useFieldsState = () => useAppSelector(getFields);
 
 export const useSelectedField = () => useAppSelector(getSelectedField);
 
-export const useFieldState = (id: string) =>
-  useAppSelector((store) => getField(store, id));
+export const useFieldValue = (id: string) => useAppSelector((store) => store.fields.formData[id]);
+
+export const useFieldState = (id: string) => useAppSelector((store) => getField(store, id));
 
 export default fieldsSlice.reducer;

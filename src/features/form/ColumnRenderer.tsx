@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { selectField, useSelectedField } from "./field-slice";
+import FieldRenderer from "./FieldRenderer";
 import { Field, FieldTypes } from "./model/Field";
 
 interface ColumnRendererProps {
@@ -17,7 +18,7 @@ const ColumnRenderer: FC<ColumnRendererProps> = ({ fields }) => {
         <div
           style={{
             border: selectedField?.id === key ? "3px dashed green" : "none",
-            padding: 8
+            padding: 8,
           }}
           key={key}
           onClick={(e) => {
@@ -26,7 +27,7 @@ const ColumnRenderer: FC<ColumnRendererProps> = ({ fields }) => {
           }}
         >
           {[FieldTypes.Text, FieldTypes.Number].includes(field.type) && (
-            <input type={field.type} placeholder={field.title} />
+              <FieldRenderer {...{field}} />
           )}
         </div>
       ))}
